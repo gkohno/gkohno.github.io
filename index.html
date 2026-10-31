@@ -34,7 +34,7 @@
 
   a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(29,92,90,.32);}
   a:hover{border-bottom-color:var(--accent);}
-  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
+  a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
 
   header{max-width:44rem;}
 
@@ -117,29 +117,7 @@
   .hook{margin:.9rem 0 1.1rem;font-size:.97rem;}
 
   .links{font-family:"IBM Plex Mono",monospace;font-size:.8rem;margin:0;}
-  .links a,.links .toggle{margin-right:1.35rem;}
-
-  .toggle{
-    font:inherit;
-    color:var(--accent);
-    background:none;
-    border:0;
-    padding:0;
-    cursor:pointer;
-  }
-  .toggle::before{content:"+ ";font-weight:500;}
-  .toggle[aria-expanded="true"]::before{content:"\2013\00a0";}
-  .toggle:hover{opacity:.72;}
-
-  /* Full abstract opens below the whole row, so the figure doesn't move */
-  .full{grid-column:1 / -1;max-width:46rem;margin-top:1.5rem;}
-  .full p{
-    margin:0;
-    padding-left:1rem;
-    border-left:2px solid var(--rule);
-    font-size:.93rem;
-    color:#2B363D;
-  }
+  .links a{margin-right:1.35rem;}
 
   /* Figure: fills the height of the text beside it (at least 18rem), keeps its shape,
      and sits directly on the page. "darken" turns a white figure background into the page colour. */
@@ -171,11 +149,10 @@
     color:var(--muted);
   }
 
-  /* Phones and narrow windows: text, then full abstract (if open), then figure */
+  /* Phones and narrow windows: text first, figure below */
   @media (max-width:820px){
     .paper{grid-template-columns:minmax(0,1fr);row-gap:1.5rem;padding:2.25rem 0;}
-    .full{order:1;margin-top:0;}
-    .exhibit{order:2;min-height:0;}
+    .exhibit{min-height:0;}
     .exhibit a{position:static;}
     .exhibit img{height:auto;}
   }
@@ -223,31 +200,15 @@
         <p class="meta">with Yi Han, David Huffman, and Yiming Liu</p>
 
         <!-- SHORT SUMMARY (shown) -->
-        <p class="hook">A weekly sale costs margin right away, and at first most of the bump is just regulars shifting when they buy. But at a large fuel retailer, stations that start a weekly discount keep growing for a year, because the new customers it attracts keep coming back after it ends. A single station's books can't tell that gain from noise for most of a year, which may be why similar stations still price so differently.</p>
+        <p class="hook">Should a store run the same discount every week? The cost shows up right away: a lower margin on every discounted sale, and at first most of the extra business is just regulars moving their purchases to the sale day. The payoff, if there is one, comes from new customers and builds slowly. We study this at a large fuel retailer where station managers set their own prices and about a third run a weekly discount day. Comparing around 600 launches with stations that never discount, we find that volume rises 12–30% and keeps growing for a year, as newly acquired customers keep coming back even after the discount ends. Yet a single station's books can't tell that gain from noise for most of a year, which may be why similar stations still price so differently.</p>
 
-        <p class="links"><button class="toggle" type="button" aria-expanded="false" aria-controls="full-jmp">Full abstract</button><a href="#">Draft coming soon</a></p>
+        <p class="links"><a href="#">Draft coming soon</a></p>
       </div>
 
       <!-- FIGURE: replace the alt text with a one-sentence description of what the figure shows. -->
       <figure class="exhibit">
         <a href="event_study_litres.svg?v=1"><img src="event_study_litres.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Job market paper exhibit: effect of launching a weekly discount on station volume and customers over time."></a>
       </figure>
-
-      <div class="full" id="full-jmp" hidden>
-        <p>
-Should a retailer run a recurring discount? The cost, a lower margin on every discounted sale, is immediate.
-Part of the discount-day lift is intertemporal substitution: existing customers moving purchases from other days.
-The payoff from the customers the discount acquires builds slowly and needs a counterfactual the store never observes. We study this at a
-large fuel retailer that delegates pricing to station managers, in a setting where managers
-have different views on how consumers respond to price cuts. About a third of stations run a weekly discount day, and the rest never do.
-We compare around 600 launches with never-discounting stations in a difference-in-differences design, using six to seven years of daily
-sales and, in one region, loyalty-card records of more than 20 million fuel purchases. Before launch, the two groups trend alike.
-After it, volume at adopting stations rises 12–30% and keeps growing through the first year. Early on, the discount-day lift is mostly intertemporal
-substitution by existing customers; over time, newly acquired customers carry the gain, and they keep buying after the discount ends.
-One station's own books, though, can't distinguish the gain from noise for most of a year, which may shed light on why similar stations
-continue to use different pricing strategies.
-        </p>
-      </div>
     </article>
 
 
@@ -259,30 +220,14 @@ continue to use different pricing strategies.
         <p class="meta">Sole authored</p>
 
         <!-- SHORT SUMMARY (shown) -->
-        <p class="hook">Efforts to reduce partisan animosity often wear off. This paper asks whether memory is one reason. In online experiments, partisans learn how generous their own party is compared with the other. When the news is unflattering, they misremember it in their party's favor, more so a week later, and those distorted memories feed polarized beliefs and discrimination.</p>
+        <p class="hook">Efforts to reduce partisan animosity often work at first, then wear off. This paper asks whether memory is part of the reason. In online experiments, partisans see evidence on how generous their own party is compared with the other, then recall it either right away or a week later. Good news about their own side sticks. Bad news doesn't: partisans misremember it in their party's favor, and the distortion grows with time, so about half of the shift in their beliefs is gone a week later. These distorted memories feed polarized beliefs and discrimination against the other side, which helps explain why interventions built on new information fade.</p>
 
-        <p class="links"><button class="toggle" type="button" aria-expanded="false" aria-controls="full-syp">Full abstract</button><a href="Second_Year_Paper.pdf">PDF</a></p>
+        <p class="links"><a href="Second_Year_Paper.pdf">PDF</a></p>
       </div>
 
       <figure class="exhibit">
         <a href="syp_exhibit.svg?v=1"><img src="syp_exhibit.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Arrows showing how partisans' beliefs about their own party's generosity changed after news. After favorable news, beliefs moved about 5 points toward their own party whether asked right away or a week later. After unfavorable news, beliefs moved 12.5 points away right away, but only 6.2 points when asked a week later."></a>
       </figure>
-
-      <div class="full" id="full-syp" hidden>
-        <p>
-Affective polarization poses significant social and political concerns.
-          Interventions can reduce it in the short term, but effects often decay over time.
-          This paper tests one explanation: individuals are motivated to sustain polarized
-          beliefs about partisan groups even after receiving contrary information, and do
-          so through memory. In online experiments, partisans observe signals of partisan
-          generosity, with recall measured immediately or after one week. I find that
-          partisans systematically misremember unfavorable information about their ingroup,
-          with distortion increasing over time. These memory distortions have downstream
-          consequences for polarized beliefs and intergroup discrimination. The results
-          identify motivated memory as a mechanism behind the persistence of affective
-          polarization and highlight the long-term limitations of interventions designed to reduce it.
-        </p>
-      </div>
     </article>
 
 
@@ -294,36 +239,14 @@ Affective polarization poses significant social and political concerns.
         <p class="meta">with Huffman, Madiès, Vogrinec, Wang, and Yagnaraman &middot; <em>European Economic Review</em>, 178</p>
 
         <!-- SHORT SUMMARY (shown) -->
-        <p class="hook">How do you measure what people consider socially appropriate? The standard method is a coordination game in which people try to match how most others rate each action, and about half of participants misunderstood it at first. Simply asking for their own view was easier to follow, picked up the largest gap in norms between giving and taking money, and best predicted actual behavior.</p>
+        <p class="hook">How do you measure what people think is socially appropriate? The standard method is a coordination game: people rate each action and are rewarded for matching how most others rated it. We compare it with simpler alternatives, asking people for their own view or for a guess about others' views, with and without pay. Every method agrees that taking money is less appropriate than giving it, even when the outcome is the same. But the more complex the method, the smaller the gap it detects and the more people it confuses: about half misunderstood the coordination game at first. Simply asking for people's own view was easiest to follow and best predicted behavior, though on controversial topics it may invite answers that sound good rather than honest ones.</p>
 
-        <p class="links"><button class="toggle" type="button" aria-expanded="false" aria-controls="full-eer">Full abstract</button><a href="https://www.sciencedirect.com/science/article/pii/S0014292125001473">Journal</a><a href="files/eer.pdf">PDF</a></p>
+        <p class="links"><a href="https://www.sciencedirect.com/science/article/pii/S0014292125001473">Journal</a><a href="files/eer.pdf">PDF</a></p>
       </div>
 
       <figure class="exhibit">
         <a href="website_exhibit.svg"><img src="website_exhibit.svg" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Three line charts, one per elicitation method: personal evaluation, guess what others said, and coordination game. In each, splits reached by taking are rated less socially appropriate than the same splits reached by giving, and the gap shrinks from the simplest method to the most complex. Bars below show initial understanding of the task falling from 87% to 78% to 52%."></a>
       </figure>
-
-      <div class="full" id="full-eer" hidden>
-        <p>
-          Studying social norms and how they vary in different contexts requires reliable measurements.
-          We revisit the seminal Krupka and Weber (KW 2013) norm elicitation method and assess the importance of
-          two dimensions of eliciting norms — first, whether to use the KW coordination game method or an alternative,
-          two-stage method that directly elicits first-order or second-order beliefs about social appropriateness,
-          and second, whether to use financial incentives. We replicate KW’s main finding of a qualitative difference
-          in norms between the dictator game and a re-framed version that involves potentially taking money: KW and all
-          other methods show that taking money is less socially appropriate than giving money, holding outcomes fixed
-          and regardless of the presence of monetary incentives. However, we find that the difference in elicited
-          social appropriateness between the two versions of the dictator game varies across methods, with elicited
-          first-order beliefs exhibiting the largest gap in social appropriateness and KW exhibiting the smallest gap.
-          One possible explanation is that strategic uncertainty and complexity in the KW method may attenuate
-          sensitivity of the measure to differences in norms across contexts. A comprehension check reveals that
-          about half of the KW participants initially misunderstood the task, and a prediction exercise reveals
-          that first-order beliefs yield the best predictive power over actual behavior in simple dictator games.
-          One implication is that first-order beliefs could be a simple alternative measure for capturing norm
-          differences across contexts, with good predictive power. A caveat, however, is that first-order beliefs
-          might be more subject to social desirability bias in settings with controversial or pluralistic norms.
-        </p>
-      </div>
     </article>
 
 
@@ -339,16 +262,5 @@ Affective polarization poses significant social and political concerns.
 
 </div>
 
-<script>
-  // "+ Full abstract" buttons
-  document.querySelectorAll('.toggle').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      var panel = document.getElementById(btn.getAttribute('aria-controls'));
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', String(!open));
-      panel.hidden = open;
-    });
-  });
-</script>
 </body>
 </html>
