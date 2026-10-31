@@ -30,11 +30,14 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  .wrap{max-width:44rem;margin:0 auto;padding:5.5rem 1.5rem 6rem;}
+  /* Wide enough for abstract + figure side by side; prose blocks keep a readable width */
+  .wrap{max-width:66rem;margin:0 auto;padding:5.5rem 1.5rem 6rem;}
 
   a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(29,92,90,.32);}
   a:hover{border-bottom-color:var(--accent);}
   a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
+
+  header{max-width:44rem;}
 
   h1{
     font-family:"Newsreader",Georgia,serif;
@@ -43,14 +46,6 @@
     line-height:1.1;
     letter-spacing:-.015em;
     margin:0 0 1rem;
-  }
-
-  .standfirst{
-    font-family:"Newsreader",Georgia,serif;
-    font-size:1.2rem;
-    line-height:1.55;
-    margin:0 0 1.5rem;
-    max-width:34rem;
   }
 
   .affil{
@@ -66,6 +61,8 @@
 
   section{margin-top:4rem;}
 
+  .intro{max-width:41rem;margin:0;}
+
   h2{
     font-family:"IBM Plex Mono",monospace;
     font-size:.78rem;
@@ -73,12 +70,21 @@
     letter-spacing:.12em;
     text-transform:uppercase;
     color:var(--muted);
-    margin:0 0 1.75rem;
+    margin:0 0 .5rem;
     padding-bottom:.65rem;
     border-bottom:1px solid var(--rule);
   }
+  .contact-section h2{margin-bottom:1.75rem;}
 
-  .paper{padding:1.6rem 0;border-bottom:1px solid var(--rule);}
+  /* ---------- Paper entries: short abstract left, figure right ---------- */
+  .paper{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    column-gap:3rem;
+    align-items:start;
+    padding:2.75rem 0;
+    border-bottom:1px solid var(--rule);
+  }
   .paper:last-child{border-bottom:none;}
 
   .status{
@@ -96,7 +102,7 @@
   .paper h3{
     font-family:"Newsreader",Georgia,serif;
     font-weight:500;
-    font-size:1.32rem;
+    font-size:1.38rem;
     line-height:1.3;
     margin:0 0 .45rem;
     letter-spacing:-.005em;
@@ -105,6 +111,9 @@
   .meta{font-size:.94rem;color:var(--muted);margin:0 0 .9rem;}
   .meta em{font-style:italic;}
 
+  .short{margin:.9rem 0 1rem;font-size:.97rem;}
+
+  /* Full abstract, behind a toggle */
   details{margin:0 0 .9rem;}
 
   summary{
@@ -128,15 +137,28 @@
     margin:.85rem 0 0;
     padding-left:1rem;
     border-left:2px solid var(--rule);
-    max-width:38rem;
-    font-size:.97rem;
+    font-size:.93rem;
+    color:#2B363D;
   }
 
   .links{font-family:"IBM Plex Mono",monospace;font-size:.8rem;margin:0;}
   .links a{margin-right:1.35rem;}
 
-  .about p{max-width:38rem;margin:0 0 1rem;}
-  .about p:last-child{margin-bottom:0;}
+  /* Figure (click opens it full size) */
+  .exhibit{margin:0;}
+  .exhibit a{
+    display:block;
+    background:#fff;
+    border:1px solid var(--rule);
+    border-radius:3px;
+    padding:.75rem;
+  }
+  .exhibit a:hover{border-color:var(--accent);}
+  .exhibit img{display:block;width:100%;height:auto;}
+
+  /* If a figure fails to load, hide it and let the text use the full width */
+  .paper.no-fig{grid-template-columns:minmax(0,1fr);}
+  .paper.no-fig .exhibit{display:none;}
 
   .contact{font-family:"IBM Plex Mono",monospace;font-size:.9rem;margin:0;}
 
@@ -150,13 +172,14 @@
     text-transform:uppercase;
     color:var(--muted);
   }
-  
-  .exhibit{margin:.85rem 0 0;}
-  .exhibit a{display:block;border-bottom:none;}
-  .exhibit img{display:block;width:100%;height:auto;}
+
+  /* Phones and narrow windows: text first, figure below */
+  @media (max-width:780px){
+    .paper{grid-template-columns:minmax(0,1fr);row-gap:1.5rem;padding:2.25rem 0;}
+  }
 
   @media (max-width:640px){
-    .wrap{padding:3.5rem 1.25rem 4rem;}
+    .wrap{padding:3.5rem 1rem 4rem;}
     body{font-size:16px;}
     .affil .sep{display:block;height:0;overflow:hidden;padding:0;}
   }
@@ -177,12 +200,12 @@
   </header>
 
   <section>
-<p>I'm an economist who uses causal inference and experiments to understand how people make decisions. 
-  My job market paper draws on 23 million transactions to study how firms use promotional pricing to 
-  build customer habits, separating short-run responses to price cuts from lasting changes in behavior. 
-  My other work shows that biased memory reinforces polarized beliefs, limiting what new information can 
-  do to change minds. I also compare simple and complex methods for measuring social norms, documenting 
-  key trade-offs for survey design. I'm on the 2026–27 job market.</p>
+<p class="intro">I'm an economist who uses causal inference and experiments to understand how people make decisions.
+  My job market paper draws on over 20 million transactions to study how firms use promotional pricing to
+  acquire customers, separating regulars who just shift purchases to the sale day from new customers who keep
+  coming back. My other work shows that biased memory reinforces polarized beliefs, limiting what new
+  information can do to change minds. I also compare simple and complex methods for measuring social norms,
+  documenting key trade-offs for survey design. I'm on the 2026–27 job market.</p>
   </section>
 
   <section>
@@ -191,121 +214,129 @@
 
 <!-- ==================== PAPER 1 — JOB MARKET PAPER ==================== -->
     <article class="paper">
-      <span class="status pending">Job market paper &middot; draft in progress</span>
-      <h3>Come for the Discount, Stay for the Station: Customer Capital and the Hidden Returns to Recurring Price Cuts</h3>
+      <div class="paper-text">
+        <span class="status pending">Job market paper &middot; draft in progress</span>
+        <h3>Come for the Discount, Stay for the Station: Customer Capital and the Hidden Returns to Recurring Price Cuts</h3>
+        <p class="meta">with Yi Han, David Huffman, and Yiming Liu</p>
 
-      <details>
-        <summary>Abstract</summary>
-        <p class="abstract">
-<!-- ================================================================= -->
-<!--  PASTE ABSTRACT 1 BELOW THIS LINE                                 -->
+        <!-- SHORT ABSTRACT (shown) -->
+        <p class="short">Should a retailer run a recurring discount? The cost, a lower margin on every discounted sale, is immediate; the payoff from the customers it acquires builds slowly. At a large fuel retailer where station managers set their own prices, we compare around 600 weekly-discount launches with never-discounting stations. Volume at adopting stations rises 12–30% and keeps growing through the first year. Early on, the discount-day lift is mostly existing customers shifting purchases; over time, newly acquired customers carry the gain, and they keep buying after the discount ends.</p>
 
-          
+        <details>
+          <summary>Full abstract</summary>
+          <p class="abstract">
+Should a retailer run a recurring discount? The cost, a lower margin on every discounted sale, is immediate.
+Part of the discount-day lift is intertemporal substitution: existing customers moving purchases from other days.
+The payoff from the customers the discount acquires builds slowly and needs a counterfactual the store never observes. We study this at a
+large fuel retailer that delegates pricing to station managers, in a setting where managers
+have different views on how consumers respond to price cuts. About a third of stations run a weekly discount day, and the rest never do.
+We compare around 600 launches with never-discounting stations in a difference-in-differences design, using six to seven years of daily
+sales and, in one region, loyalty-card records of more than 20 million fuel purchases. Before launch, the two groups trend alike.
+After it, volume at adopting stations rises 12–30% and keeps growing through the first year. Early on, the discount-day lift is mostly intertemporal
+substitution by existing customers; over time, newly acquired customers carry the gain, and they keep buying after the discount ends.
+One station's own books, though, can't distinguish the gain from noise for most of a year, which may shed light on why similar stations
+continue to use different pricing strategies.
+          </p>
+        </details>
 
-<!--  PASTE ABSTRACT 1 ABOVE THIS LINE                                 -->
-<!-- ================================================================= -->
-        </p>
-      </details>
+        <p class="links"><a href="#">Draft coming soon</a></p>
+      </div>
 
-      <p class="links"><a href="#">Draft coming soon</a></p>
+      <!-- FIGURE: upload your JMP exhibit as jmp_exhibit.svg (or change both "jmp_exhibit.svg" below to your file's name),
+           and replace the alt text with a one-sentence description of what the figure shows. -->
+      <figure class="exhibit">
+        <a href="event_study_litres.svg?v=1"><img src="event_study_litres.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Job market paper exhibit: effect of launching a weekly discount on station volume and customers over time."></a>
+      </figure>
     </article>
 
 
 <!-- ==================== PAPER 2 — SOLO WORKING PAPER ==================== -->
     <article class="paper">
-      <span class="status">Working paper</span>
-      <h3>Motivated Affective Polarization: Recall of relative partisan generosity</h3>
-      <p class="meta">Sole authored</p>
+      <div class="paper-text">
+        <span class="status">Working paper</span>
+        <h3>Motivated Affective Polarization: Recall of relative partisan generosity</h3>
+        <p class="meta">Sole authored</p>
 
-      <details>
-        <summary>Abstract</summary>
-        <p class="abstract">
-<!-- ================================================================= -->
-<!--  PASTE ABSTRACT 2 BELOW THIS LINE                                 -->
-Affective polarization poses significant social and political concerns. 
-          Interventions can reduce it in the short term, but effects often decay over time. 
-          This paper tests one explanation: individuals are motivated to sustain polarized 
-          beliefs about partisan groups even after receiving contrary information, and do 
-          so through memory. In online experiments, partisans observe signals of partisan 
-          generosity, with recall measured immediately or after one week. I find that 
-          partisans systematically misremember unfavorable information about their ingroup, 
-          with distortion increasing over time. These memory distortions have downstream 
-          consequences for polarized beliefs and intergroup discrimination. The results 
-          identify motivated memory as a mechanism behind the persistence of affective 
+        <!-- SHORT ABSTRACT (shown) -->
+        <p class="short">Interventions can reduce affective polarization, but their effects often fade. This paper tests one reason: people sustain polarized beliefs through memory. In online experiments, partisans see signals of partisan generosity and recall them either immediately or a week later. They systematically misremember unfavorable information about their own party, and the distortion grows over time, with consequences for polarized beliefs and intergroup discrimination.</p>
+
+        <details>
+          <summary>Full abstract</summary>
+          <p class="abstract">
+Affective polarization poses significant social and political concerns.
+          Interventions can reduce it in the short term, but effects often decay over time.
+          This paper tests one explanation: individuals are motivated to sustain polarized
+          beliefs about partisan groups even after receiving contrary information, and do
+          so through memory. In online experiments, partisans observe signals of partisan
+          generosity, with recall measured immediately or after one week. I find that
+          partisans systematically misremember unfavorable information about their ingroup,
+          with distortion increasing over time. These memory distortions have downstream
+          consequences for polarized beliefs and intergroup discrimination. The results
+          identify motivated memory as a mechanism behind the persistence of affective
           polarization and highlight the long-term limitations of interventions designed to reduce it.
-          
+          </p>
+        </details>
 
-<!--  PASTE ABSTRACT 2 ABOVE THIS LINE                                 -->
-<!-- ================================================================= -->
-        </p>
-      </details>
-      
-      <details>
-        <summary>Figure</summary>
-        <figure class="exhibit">
-          <a href="syp_exhibit.svg?v=1"><img src="syp_exhibit.svg?v=1" loading="lazy" alt="Arrows showing how partisans' beliefs about their own party's generosity changed after news. After favorable news, beliefs moved about 5 points toward their own party whether asked right away or a week later. After unfavorable news, beliefs moved 12.5 points away right away, but only 6.2 points when asked a week later."></a>
-        </figure>
-      </details>
+        <p class="links"><a href="Second_Year_Paper.pdf">PDF</a></p>
+      </div>
 
-      <p class="links"><a href="Second_Year_Paper.pdf">PDF</a></p>
+      <figure class="exhibit">
+        <a href="syp_exhibit.svg?v=1"><img src="syp_exhibit.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Arrows showing how partisans' beliefs about their own party's generosity changed after news. After favorable news, beliefs moved about 5 points toward their own party whether asked right away or a week later. After unfavorable news, beliefs moved 12.5 points away right away, but only 6.2 points when asked a week later."></a>
+      </figure>
     </article>
 
 
 <!-- ==================== PAPER 3 — PUBLISHED (EER) ==================== -->
     <article class="paper">
-      <span class="status">Published &middot; 2025</span>
-      <h3>Measuring Social Norm Variation Across Contexts: Replication and Comparison to Alternative Methods</h3>
-      <p class="meta">with Huffman, Madiès, Vogrinec, Wang, and Yagnaraman &middot; <em>European Economic Review</em>, 178</p>
+      <div class="paper-text">
+        <span class="status">Published &middot; 2025</span>
+        <h3>Measuring Social Norm Variation Across Contexts: Replication and Comparison to Alternative Methods</h3>
+        <p class="meta">with Huffman, Madiès, Vogrinec, Wang, and Yagnaraman &middot; <em>European Economic Review</em>, 178</p>
 
-      <details>
-        <summary>Abstract</summary>
-        <p class="abstract">
-<!-- ================================================================= -->
-<!--  PASTE ABSTRACT 3 BELOW THIS LINE                                 -->
+        <!-- SHORT ABSTRACT (shown) -->
+        <p class="short">Studying how social norms vary across contexts requires reliable measurement. We compare the standard Krupka–Weber (KW) coordination game with a simpler two-stage method that elicits first- or second-order beliefs directly, with and without incentives. Every method replicates KW's finding that taking money is less socially appropriate than giving it, but the size of the gap varies: largest with first-order beliefs, smallest with KW. About half of KW participants initially misunderstood the task, and first-order beliefs best predict actual behavior.</p>
 
-          Studying social norms and how they vary in different contexts requires reliable measurements. 
-          We revisit the seminal Krupka and Weber (KW 2013) norm elicitation method and assess the importance of 
-          two dimensions of eliciting norms — first, whether to use the KW coordination game method or an alternative, 
-          two-stage method that directly elicits first-order or second-order beliefs about social appropriateness, 
-          and second, whether to use financial incentives. We replicate KW’s main finding of a qualitative difference 
-          in norms between the dictator game and a re-framed version that involves potentially taking money: KW and all 
-          other methods show that taking money is less socially appropriate than giving money, holding outcomes fixed 
-          and regardless of the presence of monetary incentives. However, we find that the difference in elicited 
-          social appropriateness between the two versions of the dictator game varies across methods, with elicited 
-          first-order beliefs exhibiting the largest gap in social appropriateness and KW exhibiting the smallest gap. 
-          One possible explanation is that strategic uncertainty and complexity in the KW method may attenuate 
-          sensitivity of the measure to differences in norms across contexts. A comprehension check reveals that 
-          about half of the KW participants initially misunderstood the task, and a prediction exercise reveals 
-          that first-order beliefs yield the best predictive power over actual behavior in simple dictator games. 
-          One implication is that first-order beliefs could be a simple alternative measure for capturing norm 
-          differences across contexts, with good predictive power. A caveat, however, is that first-order beliefs 
+        <details>
+          <summary>Full abstract</summary>
+          <p class="abstract">
+          Studying social norms and how they vary in different contexts requires reliable measurements.
+          We revisit the seminal Krupka and Weber (KW 2013) norm elicitation method and assess the importance of
+          two dimensions of eliciting norms — first, whether to use the KW coordination game method or an alternative,
+          two-stage method that directly elicits first-order or second-order beliefs about social appropriateness,
+          and second, whether to use financial incentives. We replicate KW’s main finding of a qualitative difference
+          in norms between the dictator game and a re-framed version that involves potentially taking money: KW and all
+          other methods show that taking money is less socially appropriate than giving money, holding outcomes fixed
+          and regardless of the presence of monetary incentives. However, we find that the difference in elicited
+          social appropriateness between the two versions of the dictator game varies across methods, with elicited
+          first-order beliefs exhibiting the largest gap in social appropriateness and KW exhibiting the smallest gap.
+          One possible explanation is that strategic uncertainty and complexity in the KW method may attenuate
+          sensitivity of the measure to differences in norms across contexts. A comprehension check reveals that
+          about half of the KW participants initially misunderstood the task, and a prediction exercise reveals
+          that first-order beliefs yield the best predictive power over actual behavior in simple dictator games.
+          One implication is that first-order beliefs could be a simple alternative measure for capturing norm
+          differences across contexts, with good predictive power. A caveat, however, is that first-order beliefs
           might be more subject to social desirability bias in settings with controversial or pluralistic norms.
+          </p>
+        </details>
 
-<!--  PASTE ABSTRACT 3 ABOVE THIS LINE                                 -->
-<!-- ================================================================= -->
-        </p>
-      </details>
+        <p class="links"><a href="https://www.sciencedirect.com/science/article/pii/S0014292125001473">Journal</a><a href="files/eer.pdf">PDF</a></p>
+      </div>
 
-      <details>
-        <summary>Figure</summary>
-        <figure class="exhibit">
-          <a href="website_exhibit.svg"><img src="website_exhibit.svg" loading="lazy" alt="Three line charts, one per elicitation method: personal evaluation, guess what others said, and coordination game. In each, splits reached by taking are rated less socially appropriate than the same splits reached by giving, and the gap shrinks from the simplest method to the most complex. Bars below show initial understanding of the task falling from 87% to 78% to 52%."></a>
-        </figure>
-      </details>
-
-      <p class="links"><a href="https://www.sciencedirect.com/science/article/pii/S0014292125001473">Journal</a><a href="files/eer.pdf">PDF</a></p>
+      <figure class="exhibit">
+        <a href="website_exhibit.svg"><img src="website_exhibit.svg" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Three line charts, one per elicitation method: personal evaluation, guess what others said, and coordination game. In each, splits reached by taking are rated less socially appropriate than the same splits reached by giving, and the gap shrinks from the simplest method to the most complex. Bars below show initial understanding of the task falling from 87% to 78% to 52%."></a>
+      </figure>
     </article>
 
 
   </section>
 
-  <section>
+  <section class="contact-section">
     <h2>Contact</h2>
     <p class="contact"><a href="mailto:garretthkohno@gmail.com">garretthkohno@gmail.com</a></p>
     <p class="contact" style="margin-top:.5rem;"><a href="files/cv.pdf">CV (PDF)</a></p>
   </section>
 
-  <footer>Last updated August 2026</footer>
+  <footer>Last updated October 2026</footer>
 
 </div>
 </body>
