@@ -30,12 +30,11 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* Wide enough for abstract + figure side by side; prose blocks keep a readable width */
-  .wrap{max-width:66rem;margin:0 auto;padding:5.5rem 1.5rem 6rem;}
+  .wrap{max-width:72rem;margin:0 auto;padding:5.5rem 1.5rem 6rem;}
 
   a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(29,92,90,.32);}
   a:hover{border-bottom-color:var(--accent);}
-  a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
 
   header{max-width:44rem;}
 
@@ -62,6 +61,8 @@
   section{margin-top:4rem;}
 
   .intro{max-width:41rem;margin:0;}
+  .fields{margin:1rem 0 0;font-size:.94rem;color:var(--muted);}
+  .fields strong{font-weight:500;color:var(--ink);}
 
   h2{
     font-family:"IBM Plex Mono",monospace;
@@ -76,16 +77,17 @@
   }
   .contact-section h2{margin-bottom:1.75rem;}
 
-  /* ---------- Paper entries: short abstract left, figure right ---------- */
+  /* ---------- Paper entries: text left, figure right ---------- */
   .paper{
     display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    grid-template-columns:minmax(0,5fr) minmax(0,7fr);
     column-gap:3rem;
-    align-items:start;
     padding:2.75rem 0;
     border-bottom:1px solid var(--rule);
   }
   .paper:last-child{border-bottom:none;}
+
+  .paper-text{align-self:center;}
 
   .status{
     display:inline-block;
@@ -108,53 +110,49 @@
     letter-spacing:-.005em;
   }
 
-  .meta{font-size:.94rem;color:var(--muted);margin:0 0 .9rem;}
+  .meta{font-size:.94rem;color:var(--muted);margin:0;}
   .meta em{font-style:italic;}
 
-  .short{margin:.9rem 0 1rem;font-size:.97rem;}
+  /* The short, plain-language summary */
+  .hook{margin:.9rem 0 1.1rem;font-size:.97rem;}
 
-  /* Full abstract, behind a toggle */
-  details{margin:0 0 .9rem;}
+  .links{font-family:"IBM Plex Mono",monospace;font-size:.8rem;margin:0;}
+  .links a,.links .toggle{margin-right:1.35rem;}
 
-  summary{
-    font-family:"IBM Plex Mono",monospace;
-    font-size:.76rem;
-    letter-spacing:.08em;
-    text-transform:uppercase;
+  .toggle{
+    font:inherit;
     color:var(--accent);
+    background:none;
+    border:0;
+    padding:0;
     cursor:pointer;
-    list-style:none;
-    display:inline-block;
-    padding:.15rem 0;
   }
-  summary::-webkit-details-marker{display:none;}
-  summary::before{content:"+ ";font-weight:500;}
-  details[open] summary::before{content:"\2013 ";}
-  summary:hover{opacity:.72;}
-  summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px;}
+  .toggle::before{content:"+ ";font-weight:500;}
+  .toggle[aria-expanded="true"]::before{content:"\2013\00a0";}
+  .toggle:hover{opacity:.72;}
 
-  .abstract{
-    margin:.85rem 0 0;
+  /* Full abstract opens below the whole row, so the figure doesn't move */
+  .full{grid-column:1 / -1;max-width:46rem;margin-top:1.5rem;}
+  .full p{
+    margin:0;
     padding-left:1rem;
     border-left:2px solid var(--rule);
     font-size:.93rem;
     color:#2B363D;
   }
 
-  .links{font-family:"IBM Plex Mono",monospace;font-size:.8rem;margin:0;}
-  .links a{margin-right:1.35rem;}
-
-  /* Figure (click opens it full size) */
-  .exhibit{margin:0;}
-  .exhibit a{
+  /* Figure: fills the height of the text beside it (at least 18rem), keeps its shape,
+     and sits directly on the page. "darken" turns a white figure background into the page colour. */
+  .exhibit{position:relative;margin:0;min-height:18rem;}
+  .exhibit a{position:absolute;inset:0;display:block;border:0;cursor:zoom-in;}
+  .exhibit img{
     display:block;
-    background:#fff;
-    border:1px solid var(--rule);
-    border-radius:3px;
-    padding:.75rem;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+    mix-blend-mode:darken;
   }
-  .exhibit a:hover{border-color:var(--accent);}
-  .exhibit img{display:block;width:100%;height:auto;}
 
   /* If a figure fails to load, hide it and let the text use the full width */
   .paper.no-fig{grid-template-columns:minmax(0,1fr);}
@@ -173,9 +171,13 @@
     color:var(--muted);
   }
 
-  /* Phones and narrow windows: text first, figure below */
-  @media (max-width:780px){
+  /* Phones and narrow windows: text, then full abstract (if open), then figure */
+  @media (max-width:820px){
     .paper{grid-template-columns:minmax(0,1fr);row-gap:1.5rem;padding:2.25rem 0;}
+    .full{order:1;margin-top:0;}
+    .exhibit{order:2;min-height:0;}
+    .exhibit a{position:static;}
+    .exhibit img{height:auto;}
   }
 
   @media (max-width:640px){
@@ -200,12 +202,13 @@
   </header>
 
   <section>
-<p class="intro">I'm an economist who uses causal inference and experiments to understand how people make decisions.
+<p class="intro">I'm an economist who uses causal inference and experiments to study individual decision-making.
   My job market paper draws on over 20 million transactions to study how firms use promotional pricing to
   acquire customers, separating regulars who just shift purchases to the sale day from new customers who keep
   coming back. My other work shows that biased memory reinforces polarized beliefs, limiting what new
   information can do to change minds. I also compare simple and complex methods for measuring social norms,
   documenting key trade-offs for survey design. I'm on the 2026–27 job market.</p>
+<p class="fields"><strong>Fields:</strong> Behavioral economics, experimental economics</p>
   </section>
 
   <section>
@@ -219,12 +222,19 @@
         <h3>Come for the Discount, Stay for the Station: Customer Capital and the Hidden Returns to Recurring Price Cuts</h3>
         <p class="meta">with Yi Han, David Huffman, and Yiming Liu</p>
 
-        <!-- SHORT ABSTRACT (shown) -->
-        <p class="short">Should a retailer run a recurring discount? The cost, a lower margin on every discounted sale, is immediate; the payoff from the customers it acquires builds slowly. At a large fuel retailer where station managers set their own prices, we compare around 600 weekly-discount launches with never-discounting stations. Volume at adopting stations rises 12–30% and keeps growing through the first year. Early on, the discount-day lift is mostly existing customers shifting purchases; over time, newly acquired customers carry the gain, and they keep buying after the discount ends.</p>
+        <!-- SHORT SUMMARY (shown) -->
+        <p class="hook">A weekly sale costs margin right away, and at first most of the bump is just regulars shifting when they buy. But at a large fuel retailer, stations that start a weekly discount keep growing for a year, because the new customers it attracts keep coming back after it ends. A single station's books can't tell that gain from noise for most of a year, which may be why similar stations still price so differently.</p>
 
-        <details>
-          <summary>Full abstract</summary>
-          <p class="abstract">
+        <p class="links"><button class="toggle" type="button" aria-expanded="false" aria-controls="full-jmp">Full abstract</button><a href="#">Draft coming soon</a></p>
+      </div>
+
+      <!-- FIGURE: replace the alt text with a one-sentence description of what the figure shows. -->
+      <figure class="exhibit">
+        <a href="event_study_litres.svg?v=1"><img src="event_study_litres.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Job market paper exhibit: effect of launching a weekly discount on station volume and customers over time."></a>
+      </figure>
+
+      <div class="full" id="full-jmp" hidden>
+        <p>
 Should a retailer run a recurring discount? The cost, a lower margin on every discounted sale, is immediate.
 Part of the discount-day lift is intertemporal substitution: existing customers moving purchases from other days.
 The payoff from the customers the discount acquires builds slowly and needs a counterfactual the store never observes. We study this at a
@@ -236,17 +246,8 @@ After it, volume at adopting stations rises 12–30% and keeps growing through t
 substitution by existing customers; over time, newly acquired customers carry the gain, and they keep buying after the discount ends.
 One station's own books, though, can't distinguish the gain from noise for most of a year, which may shed light on why similar stations
 continue to use different pricing strategies.
-          </p>
-        </details>
-
-        <p class="links"><a href="#">Draft coming soon</a></p>
+        </p>
       </div>
-
-      <!-- FIGURE: upload your JMP exhibit as jmp_exhibit.svg (or change both "jmp_exhibit.svg" below to your file's name),
-           and replace the alt text with a one-sentence description of what the figure shows. -->
-      <figure class="exhibit">
-        <a href="event_study_litres.svg?v=1"><img src="event_study_litres.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Job market paper exhibit: effect of launching a weekly discount on station volume and customers over time."></a>
-      </figure>
     </article>
 
 
@@ -257,12 +258,18 @@ continue to use different pricing strategies.
         <h3>Motivated Affective Polarization: Recall of relative partisan generosity</h3>
         <p class="meta">Sole authored</p>
 
-        <!-- SHORT ABSTRACT (shown) -->
-        <p class="short">Interventions can reduce affective polarization, but their effects often fade. This paper tests one reason: people sustain polarized beliefs through memory. In online experiments, partisans see signals of partisan generosity and recall them either immediately or a week later. They systematically misremember unfavorable information about their own party, and the distortion grows over time, with consequences for polarized beliefs and intergroup discrimination.</p>
+        <!-- SHORT SUMMARY (shown) -->
+        <p class="hook">Efforts to reduce partisan animosity often wear off. This paper asks whether memory is one reason. In online experiments, partisans learn how generous their own party is compared with the other. When the news is unflattering, they misremember it in their party's favor, more so a week later, and those distorted memories feed polarized beliefs and discrimination.</p>
 
-        <details>
-          <summary>Full abstract</summary>
-          <p class="abstract">
+        <p class="links"><button class="toggle" type="button" aria-expanded="false" aria-controls="full-syp">Full abstract</button><a href="Second_Year_Paper.pdf">PDF</a></p>
+      </div>
+
+      <figure class="exhibit">
+        <a href="syp_exhibit.svg?v=1"><img src="syp_exhibit.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Arrows showing how partisans' beliefs about their own party's generosity changed after news. After favorable news, beliefs moved about 5 points toward their own party whether asked right away or a week later. After unfavorable news, beliefs moved 12.5 points away right away, but only 6.2 points when asked a week later."></a>
+      </figure>
+
+      <div class="full" id="full-syp" hidden>
+        <p>
 Affective polarization poses significant social and political concerns.
           Interventions can reduce it in the short term, but effects often decay over time.
           This paper tests one explanation: individuals are motivated to sustain polarized
@@ -274,15 +281,8 @@ Affective polarization poses significant social and political concerns.
           consequences for polarized beliefs and intergroup discrimination. The results
           identify motivated memory as a mechanism behind the persistence of affective
           polarization and highlight the long-term limitations of interventions designed to reduce it.
-          </p>
-        </details>
-
-        <p class="links"><a href="Second_Year_Paper.pdf">PDF</a></p>
+        </p>
       </div>
-
-      <figure class="exhibit">
-        <a href="syp_exhibit.svg?v=1"><img src="syp_exhibit.svg?v=1" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Arrows showing how partisans' beliefs about their own party's generosity changed after news. After favorable news, beliefs moved about 5 points toward their own party whether asked right away or a week later. After unfavorable news, beliefs moved 12.5 points away right away, but only 6.2 points when asked a week later."></a>
-      </figure>
     </article>
 
 
@@ -293,12 +293,18 @@ Affective polarization poses significant social and political concerns.
         <h3>Measuring Social Norm Variation Across Contexts: Replication and Comparison to Alternative Methods</h3>
         <p class="meta">with Huffman, Madiès, Vogrinec, Wang, and Yagnaraman &middot; <em>European Economic Review</em>, 178</p>
 
-        <!-- SHORT ABSTRACT (shown) -->
-        <p class="short">Studying how social norms vary across contexts requires reliable measurement. We compare the standard Krupka–Weber (KW) coordination game with a simpler two-stage method that elicits first- or second-order beliefs directly, with and without incentives. Every method replicates KW's finding that taking money is less socially appropriate than giving it, but the size of the gap varies: largest with first-order beliefs, smallest with KW. About half of KW participants initially misunderstood the task, and first-order beliefs best predict actual behavior.</p>
+        <!-- SHORT SUMMARY (shown) -->
+        <p class="hook">How do you measure what people consider socially appropriate? The standard method is a coordination game in which people try to match how most others rate each action, and about half of participants misunderstood it at first. Simply asking for their own view was easier to follow, picked up the largest gap in norms between giving and taking money, and best predicted actual behavior.</p>
 
-        <details>
-          <summary>Full abstract</summary>
-          <p class="abstract">
+        <p class="links"><button class="toggle" type="button" aria-expanded="false" aria-controls="full-eer">Full abstract</button><a href="https://www.sciencedirect.com/science/article/pii/S0014292125001473">Journal</a><a href="files/eer.pdf">PDF</a></p>
+      </div>
+
+      <figure class="exhibit">
+        <a href="website_exhibit.svg"><img src="website_exhibit.svg" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Three line charts, one per elicitation method: personal evaluation, guess what others said, and coordination game. In each, splits reached by taking are rated less socially appropriate than the same splits reached by giving, and the gap shrinks from the simplest method to the most complex. Bars below show initial understanding of the task falling from 87% to 78% to 52%."></a>
+      </figure>
+
+      <div class="full" id="full-eer" hidden>
+        <p>
           Studying social norms and how they vary in different contexts requires reliable measurements.
           We revisit the seminal Krupka and Weber (KW 2013) norm elicitation method and assess the importance of
           two dimensions of eliciting norms — first, whether to use the KW coordination game method or an alternative,
@@ -316,15 +322,8 @@ Affective polarization poses significant social and political concerns.
           One implication is that first-order beliefs could be a simple alternative measure for capturing norm
           differences across contexts, with good predictive power. A caveat, however, is that first-order beliefs
           might be more subject to social desirability bias in settings with controversial or pluralistic norms.
-          </p>
-        </details>
-
-        <p class="links"><a href="https://www.sciencedirect.com/science/article/pii/S0014292125001473">Journal</a><a href="files/eer.pdf">PDF</a></p>
+        </p>
       </div>
-
-      <figure class="exhibit">
-        <a href="website_exhibit.svg"><img src="website_exhibit.svg" loading="lazy" onerror="this.closest('.paper').classList.add('no-fig')" alt="Three line charts, one per elicitation method: personal evaluation, guess what others said, and coordination game. In each, splits reached by taking are rated less socially appropriate than the same splits reached by giving, and the gap shrinks from the simplest method to the most complex. Bars below show initial understanding of the task falling from 87% to 78% to 52%."></a>
-      </figure>
     </article>
 
 
@@ -339,5 +338,17 @@ Affective polarization poses significant social and political concerns.
   <footer>Last updated October 2026</footer>
 
 </div>
+
+<script>
+  // "+ Full abstract" buttons
+  document.querySelectorAll('.toggle').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var panel = document.getElementById(btn.getAttribute('aria-controls'));
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!open));
+      panel.hidden = open;
+    });
+  });
+</script>
 </body>
 </html>
